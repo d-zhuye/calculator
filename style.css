@@ -1,0 +1,65 @@
+body * {
+    font-family: "Roboto Mono", monospace;
+    font-size: 40px;
+    font-weight: 600;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px
+
+}
+
+#container {
+    background-color: slategray;
+    width: 450px;
+    height: 640px;
+
+    border-radius: 20px;
+}
+
+#container * {
+    border-radius: 15px;
+
+
+}
+
+#display {
+    background-color: lightskyblue;
+    width: 400px;
+    height: 170px;
+    margin: 0px;
+
+}
+
+#keypad {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+
+}
+
+.key {
+    background-color: white;
+    
+    border: 0px;
+
+    width: 85px;
+    height: 85px;
+    justify-content: center;
+    align-items: center;
+}
+
+.key:hover {
+    cursor: pointer;
+}
+
+.operation {
+    background-color: black;
+    color: white;
+}
+
+#allClear {
+    background-color: red;
+}
