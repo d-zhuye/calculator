@@ -14,15 +14,13 @@ body * {
 #container {
     background-color: slategray;
     width: 450px;
-    height: 640px;
+    border: 20px slategray solid;
 
     border-radius: 20px;
 }
 
 #container * {
     border-radius: 15px;
-
-
 }
 
 #display {
@@ -60,6 +58,6 @@ body * {
     color: white;
 }
 
-#allClear {
+#allClear, #clear {
     background-color: red;
 }
