@@ -1,45 +1,63 @@
 let order = "firstNumber";
 let firstNumber = "";
 let secondNumber = "";
+let runningTotal = "";
 let displayReturn = "";
 let functionCall = "";
 
-const one = document.querySelector("#one");
-const two = document.querySelector("#two");
+function updateDisplay() {
+    if (Number(displayReturn) > 99999999) {
+        displayReturn = "Limit Exceeded";
+    }
+    const display = document.querySelector("#display");
+    display.textContent = displayReturn;
+}
 
 function add(a,b) {
     a = Number(a);
     b = Number(b);
-    console.log(a+b +"add");
-    displayReturn = a + b;
+    runningTotal = a + b;
 }
 
 function subtract(a,b) {
     a = Number(a);
     b = Number(b);
-    console.log(a-b + "subtract");
-    displayReturn = a - b;
+    runningTotal = a - b;
 }
 
 function divide(a,b) {
     a = Number(a);
     b = Number(b);
-    console.log(a/b + "divide");
-    displayReturn = a / b;
+    if (b === 0) {
+        displayReturn = "Divide by 0 Error";
+    } else {
+        runningTotal = a / b;
+    }
 }
 
 function multiply(a,b) {
     a = Number(a);
     b = Number(b);
-    console.log(a*b + "multiply");
-    displayReturn = a * b;
+    runningTotal = a * b;
+}
+
+function multiCalculation () {
+    firstNumber = runningTotal;
+    displayReturn = runningTotal;
+    order = "secondNumber";
+    secondNumber = "";
+    updateDisplay();
 }
 
 function allClear() {
     firstNumber = "";
     secondNumber = "";
+    runningTotal = 0;
     displayReturn = 0;
     order = "firstNumber";
+    functionCall = "";
+    updateDisplay();
+
 }
 
 function clear() {
@@ -48,12 +66,26 @@ function clear() {
     } else if (order == "secondNumber") {
         secondNumber = ""
     }
+    updateDisplay();
 }
 
-function multiCalculation () {
-    firstNumber = displayReturn;
-    secondNumber = "";
-    order = "secondNumber";
+function calculate(input) {
+    switch (input) {
+        case "add": 
+            add(firstNumber,secondNumber);
+            break;
+        case "subtract":
+            subtract(firstNumber,secondNumber);
+            break;
+        case "multiply":
+            multiply(firstNumber,secondNumber);
+            break;
+        case "divide":
+            divide(firstNumber,secondNumber);
+            break;
+    }
+    functionCall = "";
+    multiCalculation();
 }
 
 const numberElements = document.querySelectorAll(".number");
@@ -61,15 +93,14 @@ const numberElements = document.querySelectorAll(".number");
 numberElements.forEach((key) => {
     key.addEventListener("click", (event) => {
         const input = event.target;
-        console.log(order);
         if (order == "firstNumber") {
             firstNumber += input.textContent;
             displayReturn = firstNumber;
         } else if (order == "secondNumber") {
             secondNumber += input.textContent;
+            displayReturn = secondNumber;
         }
-
-        console.log(`First Number: ${firstNumber} === Second Number: ${secondNumber}`)
+        updateDisplay();
         event.stopPropagation();
         
     });
@@ -80,6 +111,9 @@ const operationElements = document.querySelectorAll(".operation");
 operationElements.forEach((key) => {
     key.addEventListener("click", (event) => {
         const input = event.target;
+        if (firstNumber != "" && secondNumber != "") {
+            calculate(functionCall);
+        }
         switch (input.id) {
             case "allClear":
                 allClear();
@@ -88,7 +122,8 @@ operationElements.forEach((key) => {
                 clear();
                 break;
             case "add":
-                if (secondNumber) {
+                if (secondNumber != "") {
+                    // calculate(functionCall); 
                     add(firstNumber,secondNumber);
                     multiCalculation();
                 } else {
@@ -97,9 +132,10 @@ operationElements.forEach((key) => {
                 }
                 break;
             case "subtract":
-                if (secondNumber) {
-                    subtract(firstNumber,secondNumber);
-                    multiCalculation();
+                if (secondNumber != "") {
+                    calculate(functionCall); 
+                    // subtract(firstNumber,secondNumber); 
+                    // multiCalculation();    
                 } else {
                     order = "secondNumber";
                     functionCall = "subtract";
@@ -125,34 +161,11 @@ operationElements.forEach((key) => {
                 }
                 break;
             case "equal":
-                switch (functionCall) {
-                    case "add": 
-                        add(firstNumber,secondNumber);
-                        break;
-                    case "subtract":
-                        subtract(firstNumber,secondNumber);
-                        break;
-                    case "multiply":
-                        multiply(firstNumber,secondNumber);
-                        break;
-                    case "divide":
-                        divide(firstNumber,secondNumber);
-                        break;
-                    default:
-                        
-                }
-                multiCalculation();
-
-            default:
-                displayReturn = "Error";
+                calculate(functionCall); 
         }
-    event.stopPropagation();
+        event.stopPropagation();
     });
 });
 
-const display = document.querySelector("#display");
 
-display.addEventListener("click", (event) => {
-    display.textContent = displayReturn;
-    event.stopPropagation();
-});
+                
